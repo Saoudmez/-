@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة مقياس الحكم الراشد | ماستر 1 الشفافية ومكافحة الفساد</title>
+    <style>
+        /* ==================== 1. المتغيرات والتنسيقات العامة ==================== */
+        :root {
+            --primary-color: #1e3a8a;    /* أزرق كحلي مؤسسي */
+            --primary-hover: #1d4ed8;
+            --secondary-color: #059669;  /* أخضر زمردي للنزاهة */
+            --accent-color: #d97706;     /* تنبيهات ذهبية */
+            --bg-color: #f8fafc;         /* خلفية مريحة للعين */
+            --card-bg: #ffffff;
+            --text-main: #0f172a;        /* نص داكن واضح */
+            --text-muted: #475569;
+            --border-color: #e2e8f0;
+            --success-bg: #d1fae5;
+            --success-text: #065f46;
+            --error-bg: #fee2e2;
+            --error-text: #991b1b;
+            --radius: 10px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding-bottom: 50px;
+        }
+
+        /* ==================== 2. الهيدر وشريط الملاحة ==================== */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #0f172a);
+            color: white;
+            padding: 2rem 1rem 1rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* شريط التبويب */
+        nav {
+            background-color: var(--card-bg);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0 0.5rem;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background-color: #f1f5f9;
+        }
+
+        /* ==================== 3. الحاوية الرئيسية والبحث ==================== */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .search-box {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* ==================== 4. أقسام المحتوى ==================== */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* البطاقات التعليمية */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border-right: 5px solid var(--primary-color);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-secondary {
+            border-right-color: var(--secondary-color);
+        }
+
+        .card-accent {
+            border-right-color: var(--accent-color);
+        }
+
+        .card h2, .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .card p {
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+            text-align: justify;
+        }
+
+        .legal-term {
+            background-color: #eff6ff;
+            color: #1e40af;
+            font-weight: bold;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .legal-ref {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        ul, ol {
+            margin-right: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* ==================== 5. جداول المقارنة والدليل التشريعي ==================== */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* ==================== 6. أسئلة الامتحانات (Accordion) ==================== */
+        .accordion-item {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 1.2rem;
+            background: #f1f5f9;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary-color);
+        }
+
+        .accordion-header:hover {
+            background: #e2e8f0;
+        }
+
+        .accordion-body {
+            padding: 1.2rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+
+        /* ==================== 7. الاختبارات التفاعلية (Quiz) ==================== */
+        .quiz-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-option {
+            display: block;
+            padding: 0.8rem 1rem;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .quiz-option:hover {
+            background: #e2e8f0;
+        }
+
+        .quiz-option input {
+            margin-left: 0.8rem;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            display: none;
+            font-size: 0.95rem;
+        }
+
+        .quiz-feedback.correct {
+            background: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #a7f3d0;
+        }
+
+        .quiz-feedback.incorrect {
+            background: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #fecaca;
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .quiz-score-box {
+            background: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        /* ==================== 8. الفوتر ==================== */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر الرئيسي -->
+    <header>
+        <span class="badge">منصة تعليمية</span>
+        <h1>منصة مقياس الحكم الراشد</h1>
+        <p
+        
+        >دليل المراجعة الشامل والتحضير للامتحانات - ماستر 1 (من إعداد الطالب: مزروع سعود طالب ماستر 01 الشفافية ومكافحة الفساد جامعة التكوين المتواصل مركز الجزائر شرق)</p>
+    </header>
+
+    <!-- شريط التبويات لتسهيل التنقل -->
+    <nav>
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchTab('home')">🏠 الرئيسية والتقديم</button>
+            <button class="nav-btn" onclick="switchTab('module1')">📘 المقطع 1: الإطار المفاهيمي</button>
+            <button class="nav-btn" onclick="switchTab('module2')">👥 المقطع 2: الأطراف والمجالات</button>
+            <button class="nav-btn" onclick="switchTab('module3')">🌱 المقطع 3: التنمية المستدامة</button>
+            <button class="nav-btn" onclick="switchTab('module4')">🛡️ المقطع 4: مكافحة الفساد</button>
+            <button class="nav-btn" onclick="switchTab('quick-review')">⚡ المراجعة السريعة</button>
+            <button class="nav-btn" onclick="switchTab('exam-qa')">📝 أسئلة الامتحانات</button>
+            <button class="nav-btn" onclick="switchTab('quizzes')">🎯 الاختبارات التفاعلية</button>
+            <button class="nav-btn" onclick="switchTab('law-matrix')">⚖️ الدليل التشريعي</button>
+        </div>
+    </nav>
+
+    <!-- الحاوية الرئيسية -->
+    <div class="container">
+
+        <!-- شريط البحث الحي -->
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="filterContent()" placeholder="🔍 إبحث عن درس، مصطلح قانوني، مبدأ، أو رقم قانون (مثلاً: الشفافية، 06-01، مجلس المحاسبة)...">
+        </div>
+
+        <!-- ==================== التبويب 0: الرئيسية والتقديم ==================== -->
+        <div id="home" class="tab-content active searchable">
+            <div class="card">
+                <h2>ترحيب ومقدمة منهجية للمقياس</h2>
+                <p>تستهدف هذه المنصة التعليمية والتفاعلية طلبة <span class="legal-term">السنة الأولى ماستر (M1)</span> تخصص الشفافية ومكافحة الفساد بمركز الجزائر شرق. تم بناء جميع محتويات هذا الموقع واستخراج كافة أسئلته واختباراته اعتماداً حصرياً وصارماً على محاضرات مقياس <span class="legal-term">"الإطار المفاهيمي وأطراف الحكم الراشد"</span>.</p>
+                <p>تم تنظيم المحتوى بدقة علمية تجمع بين الضبط القانوني للمصطلحات، وتوضيح الأطر الدستورية والتشريعية التنظيمية في الجزائر، مع التركيز على أهم محاور أسئلة الامتحانات الجامعية.</p>
+            </div>
+
+            <div class="card card-secondary">
+                <h3>خريطة المحاور التعليمية المقررة</h3>
+                <ul>
+                    <li><strong>المقطع الأول:</strong> الإطار المفاهيمي للحكم الراشد (المدلول العام، العناصر القانونية، الطبيعة الدستورية والإدارية، المبادئ الـ 7، التطور التاريخي، والآليات الـ 7).</li>
+                    <li><strong>المقطع الثاني:</strong> أطراف الحكم الراشد (الدولة، المجتمع المدني، المواطن، القطاع الخاص، الإعلام) والمجالات التسعة وقوانين الجماعات المحلية والصفقات والمحاسبة.</li>
+                    <li><strong>المقطع الثالث:</strong> الحكم الراشد ودوره في تحقيق التنمية المستدامة (تقرير برونتلاند 1987، الأبعاد الـ 4، والتكريس التشريعي والبيئي الجزائري).</li>
+                    <li><strong>المقطع الرابع:</strong> فعالية الحكم الراشد في مكافحة الفساد (الدور المؤسسي الـ 7، المنظومة الجزائرية: قانون 06-01، دستور 2020، قانون 22-08، الاستراتيجية الوطنية 2023-2027، ومؤشرات CPI وWGI).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 1: المقطع الأول ==================== -->
+        <div id="module1" class="tab-content searchable">
+            <div class="card">
+                <h2>1. مفهوم الحكم الراشد ومدلوله العام</h2>
+                <p>يُقصد بـ <span class="legal-term">الحكم الراشد (Good Governance)</span> في مدلوله العام: ذلك النمط من ممارسة السلطة وإدارة الشأن العام الذي يتم في إطار احترام القانون، ويستهدف تحقيق المصلحة العامة من خلال مؤسسات تتسم بالفعالية والشفافية والمساءلة والمشاركة، مع ضمان احترام الحقوق والحريات الأساسية.</p>
+                <h3>العناصر القانونية الجوهرية للتعريف:</h3>
+                <ul>
+                    <li><strong>كيفية ممارسة السلطة:</strong> لا يتعلق بمجرد وجود مؤسسات دستورية بل بمدى خضوعها الفعلي للقانون.</li>
+                    <li><strong>تقييد السلطة بالمشروعية:</strong> تقييد الاختصاصات بالقواعد المستهدفة لحماية المصلحة العامة وحقوق الأفراد وعدم إطلاقيتها.</li>
+                    <li><strong>شمولية النطاق:</strong> يتجاوز الجهاز الحكومي الضيق ليشمل المؤسسات المركزية، الجماعات المحلية، والهيئات العمومية المستقلة.</li>
+                </ul>
+            </div>
+
+            <div class="card card-secondary">
+                <h2>2. الطبيعة القانونية للحكم الراشد</h2>
+                <p>تتوزع الطبيعة القانونية للحكم الراشد بين جانبين أساسيين:</p>
+                <ul>
+                    <li><strong>من الناحية الدستورية:</strong> يرتبط بمبدأ خضوع السلطات العامة للدستور والقانون، الفصل بين السلطات وتوازنها، والرقابة المتبادلة وحماية الحقوق والحريات.</li>
+                    <li><strong>من الناحية الإدارية:</strong> يرتبط بمبدأ المشروعية الإدارية، حسن سير المرافق العمومية، ترشيد الموارد، وخضوع أعمال الإدارة للرقابة الإدارية والقضائية.</li>
+                </ul>
+            </div>
+
+            <div class="card card-accent">
+                <h2>3. المبادئ السبعة الأساسية للحكم الراشد</h2>
+                <ol>
+                    <li><span class="legal-term">سيادة القانون (Rule of Law):</span> خضوع جميع الأشخاص والسلطات للقواعد القانونية وعدم ممارسة أي اختصاص خارج الحدود الرسمية.</li>
+                    <li><span class="legal-term">الشفافية (Transparency):</span> وضوح الإجراءات والقرارات وإتاحة المعلومات. تؤدي وظيفة مزدوجة (تمكين المواطن من المعرفة + توفير أساس المساءلة والرقابة) مع مراعاة الحدود القانونية (الأمن العام والخصوصية).</li>
+                    <li><span class="legal-term">المساءلة (Accountability):</span> تحميل متولي الوظيفة العامة المسؤولية (سياسية، قضائية، إدارية، أو مالية).</li>
+                    <li><span class="legal-term">المشاركة (Participation):</span> إشراك المواطنين والفاعلين في صناعة القرار ونقل المواطن من متلقٍ إلى طرف فاعل.</li>
+                    <li><span class="legal-term">الفعالية والكفاءة (Effectiveness & Efficiency):</span> قدرة الإدارة على أداء وظائفها بكفاءة واقتران الموارد بحسن الاستخدام وتحقيق الأهداف في زمني مناسب.</li>
+                    <li><span class="legal-term">العدالة والمساواة (Equity & Equality):</span> ضمان المساواة في الانتفاع بالحقوق والخدمات العامة دون تمييز إلا بأسس موضوعية.</li>
+                    <li><span class="legal-term">مكافحة الفساد (Anti-Corruption):</span> حماية نزاهة المؤسسات عبر الوقاية، والرقابة، والتصريح بالممتلكات، وترتيب المسؤولية.</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h2>4. المراحل التاريخية الخمس وتكريس الآليات</h2>
+                <p>مر الحكم الراشد بـ 5 مراحل: (1) الدولة التقليدية وتركيز السلطة، (2) دولة الرفاه واتساع الوظيفة العامة، (3) الإصلاح الإداري والاقتصادي، (4) تكريس الحكم الراشد بمفهومه الشامل، و(5) مرحلة التحول الرقمي والإدارة الإلكترونية.</p>
+                <h3>الآليات القانونية والمؤسساتية السبع للتكريس:</h3>
+                <p>تتمثل في: <strong>آليات دستورية، قضائية، برلمانية</strong> (رقابة البرلمان على الحكومة والميزانية)، <strong>مالية</strong> (إخضاع المال العام لمجلس المحاسبة)، <strong>رقابة إدارية، مشاركة مجتمعية، وآليات رقمية</strong>.</p>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 2: المقطع الثاني ==================== -->
+        <div id="module2" class="tab-content searchable">
+            <div class="card">
+                <h2>1. أطراف الحكم الراشد الخمسة وأدوارها</h2>
+                <p>يقوم الحكم الراشد على الشراكة وتعدد الفاعلين وتقاسم المسؤوليات بين 5 أطراف:</p>
+                <ul>
+                    <li><strong>1. الدولة ومؤسساتها:</strong> الناظم المؤسسي والقانوني. تحولت من دور "الفاعل المنفذ" الوحيد إلى الضبط والتنسيق والتحكيم. تشمل البرلمان، السلطة التنفيذية، الهيئات الرقابية والقضائية (<span class="legal-ref">مجلس المحاسبة</span> و<span class="legal-ref">السلطة العليا لمكافحة الفساد بالقانون 22-08</span>)، والجماعات المحلية.</li>
+                    <li><strong>2. المجتمع المدني:</strong> الجمعيات (<span class="legal-ref">القانون رقم 06-12</span>)، النقابات، الهيئات المهنية. أداء وساطة مجتمعية وتفعيل الديمقراطية التشاركية.</li>
+                    <li><strong>3. المواطن:</strong> المحور الأساسي وصاحب المصلحة والمستفيد النهائي. تشمل مشاركته تقديم العرائض والشكاوى والرقابة والمشاركة الرقمية.</li>
+                    <li><strong>4. القطاع الخاص:</strong> فاعل اقتصادي في الاستثمار والتشغيل. يتطلب ضبط علاقته بالشعب العمومي عبر الشفافية، منع تضارب المصالح، وتنظيم الصفقات العمومية (<span class="legal-ref">القانون رقم 23-12</span>).</li>
+                    <li><strong>5. وسائل الإعلام والفاعلون الرقميون:</strong> أداء وظائف إخبارية وتفسيرية ورقابية وتوعوية.</li>
+                </ul>
+            </div>
+
+            <div class="card card-secondary">
+                <h2>2. مجالات الحكم الراشد التسعة والأطر القانونية</h2>
+                <p>تتمثل المجالات الـ 9 في: (1) المجال السياسي والمؤسساتي، (2) المجال الإداري، (3) المجال المحلي، (4) المجال الاقتصادي، (5) المجال Mالي، (6) المجال الاجتماعي، (7) المجال البيئي، (8) المجال الرقمي (منصتي "بلغنا" و"نراكم")، و(9) مجال الشفافية والنزاهة ومكافحة الفساد.</p>
+
+                <h3>جدول النصوص التشريعية المؤطرة لأطراف الحكم الراشد بالجزائر:</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>طرف الحكم الراشد</th>
+                                <th>الأدوار الرئيسية في الحوكمة</th>
+                                <th>النصوص التشريعية المؤطرة في الجزائر</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الدولة ومؤسساتها</td>
+                                <td>الضبط، التحكيم، وضع القواعد، تقديم الخدمات والرقابة</td>
+                                <td><span class="legal-ref">دستور 2020</span>، <span class="legal-ref">قانون البلدية 10-11</span>، <span class="legal-ref">قانون الولاية 12-07</span>، <span class="legal-ref">الأمر 06-03 (الوظيفة العمومية)</span></td>
+                            </tr>
+                            <tr>
+                                <td>المجتمع المدني</td>
+                                <td>الوساطة المجتمعية، الديمقراطية التشاركية، تقديم الخدمات</td>
+                                <td><span class="legal-ref">القانون رقم 06-12 (الجمعيات)</span>، أحكام الدستور</td>
+                            </tr>
+                            <tr>
+                                <td>المواطن</td>
+                                <td>المشاركة، تقديم الشكاوى والعرائض، الرقابة المجتمعية</td>
+                                <td>أحكام الدستور الخاصة بالحقوق والواجبات والمشاركة</td>
+                            </tr>
+                            <tr>
+                                <td>القطاع الخاص</td>
+                                <td>الاستثمار، التنمية الاقتصادية، الشراكة العمومية والخاصة</td>
+                                <td>قانون الاستثمار، <span class="legal-ref">القانون رقم 23-12 (الصفقات العمومية)</span></td>
+                            </tr>
+                            <tr>
+                                <td>المجال المالي</td>
+                                <td>إدارة وتسيير النفقات والأموال العمومية بشفافية</td>
+                                <td><span class="legal-ref">القانون رقم 23-07 (المحاسبة العمومية والتسيير المالي)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 3: المقطع الثالث ==================== -->
+        <div id="module3" class="tab-content searchable">
+            <div class="card">
+                <h2>1. مفهوم التنمية المستدامة ونشأتها الدولية</h2>
+                <p>تحددت المحطات الدولية الكبرى للتنمية المستدامة في:</p>
+                <ul>
+                    <li><span class="legal-term">تقرير لجنة برونتلاند 1987 (Our Common Future):</span> عرف التنمية المستدامة بأنه: <em>"التنمية التي تستجيب لحاجات الحاضر دون الإخلال بقدرة الأجيال المقبلة على تلبية احتياجاتها"</em>.</li>
+                    <li><span class="legal-term">مؤتمر ريو دي جانيرو 1992 (قمة الأرض):</span> اعتماد جدول أعمال القرن 21 وترسيخ البعد البيئي.</li>
+                    <li><span class="legal-term">أجندة الأمم المتحدة 2030 (2015):</span> تحديد 17 هدفاً، ولا سيما <strong>الهدف 16</strong> المتعلق بإرساء مجتمعات سلمية وبناء مؤسسات فعالة وخاضعة للمساءلة.</li>
+                </ul>
+            </div>
+
+            <div class="card card-secondary">
+                <h2>2. الأبعاد الأربعة المتكاملة والتكريس التشريعي الجزائري</h2>
+                <p>تقوم التنمية المستدامة على 4 أبعاد: <strong>الاقتصادي</strong> (تنويع الاقتصاد خارج المحروقات)، <strong>الاجتماعي</strong> (العدالة وتكافؤ الفرص)، <strong>البيئي</strong> (<span class="legal-ref">الاستراتيجية الوطنية للبيئة 2017-2035</span>)، و<strong>المؤسساتي</strong> (كفاءة الإدارة).</p>
+                
+                <h3>المنظومة التشريعية الوطنية لحماية البيئة والتنمية المستدامة:</h3>
+                <ul>
+                    <li><strong>التكريس الدستوري:</strong> الإقرار بالاستعمال الرشيد للموارد وحق المواطن في بيئة سليمة، وتفعيل دور <span class="legal-term">المجلس الوطني الاقتصادي والاجتماعي والبيئي (CNESE)</span>.</li>
+                    <li><strong>النص المرجعي المحوري:</strong> <span class="legal-ref">القانون رقم 03-10 المتعلق بحماية البيئة في إطار التنمية المستدامة</span>.</li>
+                    <li><strong>التشريعات القطاعية المكملة:</strong>
+                        <ul>
+                            <li><span class="legal-ref">القانون رقم 01-20</span> المتعلق بتهيئة الإقليم وتنميته المستدامة.</li>
+                            <li><span class="legal-ref">القانون رقم 02-02</span> المتعلق بحماية الساحل وتثمينه.</li>
+                            <li><span class="legal-ref">القانون رقم 05-12</span> المتعلق بالمياه.</li>
+                            <li><span class="legal-ref">القانون رقم 19-01</span> المتعلق بتسيير النفايات ومراقبتها وإزالتها.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 4: المقطع الرابع ==================== -->
+        <div id="module4" class="tab-content searchable">
+            <div class="card">
+                <h2>1. الدور المؤسسي للحكم الراشد في مكافحة الفساد</h2>
+                <p>يتجلى الدور المؤسسي للحكم الراشد في الوقاية من الفساد عبر 7 محاور رئيسية:</p>
+                <ol>
+                    <li><strong>الشفافية وضبط السلطة التقديرية:</strong> النشر الاستباقي للبيانات والانتقال من الشفافية الشكلية إلى الشفافية القابلة للاستخدام (<span class="legal-ref">تقارير OECD</span>).</li>
+                    <li><strong>سيادة القانون واستقلال القضاء:</strong> كفاءة جمع الأدلة وسرعة الإجراءات وحماية ضمانات المحاكمة العادلة.</li>
+                    <li><strong>المساءلة والرقابة المستقلة على الموارد:</strong> تفعيل الرقابة المالية والتمييز بين المساءلة الإدارية والجنائية.</li>
+                    <li><strong>المشاركة المجتمعية والتبليغ الآمن:</strong> حماية المُبلّغين وتوفير قنوات معالجة الشكاوى.</li>
+                    <li><strong>الرقمنة وتتبع الأثر الإداري:</strong> تقليص الاحتكاك المباشر وإنشاء أثر إلكتروني للقرارات.</li>
+                    <li><strong>النزاهة في الصفقات العمومية:</strong> تغطية كامل دورة المشروع لمنع تضخم التكاليف.</li>
+                    <li><strong>الكفاءة الإدارية والحد من الفساد البنيوي:</strong> تحديد آجال ملزمة للخدمة لتفادي ابتزاز المواطنين.</li>
+                </ol>
+            </div>
+
+            <div class="card card-secondary">
+                <h2>2. التجربة الجزائرية والأطر التشريعية لمكافحة الفساد</h2>
+                <ul>
+                    <li><span class="legal-ref">القانون رقم 06-01 (الوقاية من الفساد ومكافحته):</span> القانون الإطار للتجريم والوقاية والتصريح بالممتلكات.</li>
+                    <li><span class="legal-ref">دستور أول نوفمبر 2020 (المادتان 204 و205):</span> التكريس الدستوري لمؤسسة رقابية دائمية مستقّلة.</li>
+                    <li><span class="legal-ref">القانون رقم 22-08:</span> المحدد لتنظيم <span class="legal-term">السلطة العليا للشفافية والوقاية من الفساد ومكافحته</span> وتشكيلها وصلاحياتها.</li>
+                    <li><span class="legal-ref">الاستراتيجية الوطنية للشفافية (2023-2027):</span> أطلقت رسمياً في 15 يوليو 2023. وتقاس فعاليتها بـ 3 مستويات: <strong>مستوى التصميم</strong>، <strong>مستوى التنفيذ</strong>، و<strong>مستوى الأثر</strong>.</li>
+                </ul>
+            </div>
+
+            <div class="card card-accent">
+                <h2>3. قراءة نقدية للمؤشرات الدولية وتقارير مجلس المحاسبة</h2>
+                <ul>
+                    <li><strong>مؤشر مدركات الفساد (CPI 2025):</strong> الصادر عن منظمة الشفافية الدولية؛ سجلت الجزائر 34 نقطة من 100 بالمرتبة 109/182 (مقابل 34 نقطة والمرتبة 107/180 سنة 2024)، وهو ما يعكس ثباتاً عددياً في النقاط يقيس الانطباعات ولا يعكس فورية الإصلاحات.</li>
+                    <li><strong>مؤشر السيطرة على الفساد (WGI 2024):</strong> الصادر عن البنك الدولي؛ سجلت الجزائر 35.8/100. ولا يصح منهحياً جمع نتيجة CPI مع WGI لاختلاف المنهجية والمصادر.</li>
+                    <li><strong>تقارير مجلس المحاسبة (2025):</strong> التمييز المنهجي الواجب بين النقائص والمخالفات الإدارية الناتجة عن ضعف التسيير وبين الجرائم الجزائية ذات القصد الجنائي.</li>
+                    <li><strong>مفاهيم استرداد الأموال الـ 4:</strong> التمييز المنهجي بين: الأموال قيد التحقيق، الأصول المجمدة، الممتلكات المصادرة بحكم قضائي، والأموال المسترجعة فعلياً لخزينة الدولة.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 5: المراجعة السريعة (بطاقات الحفظ) ==================== -->
+        <div id="quick-review" class="tab-content searchable">
+            <div class="card">
+                <h2>⚡ أهم التعريفات والمصطلحات للحفظ السريع قبل الامتحان</h2>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">📌 تعريف الحكم الراشد في مدلوله العام ➕</div>
+                    <div class="accordion-body">
+                        نمط من ممارسة السلطة وإدارة الشأن العام يتم في إطار احترام القانون، ويستهدف تحقيق المصلحة العامة من خلال مؤسسات تتسم بالفعالية والشفافية والمساءلة والمشاركة مع ضمان احترام الحقوق والحريات.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">📌 الوظيفة المزدوجة للشفافية وحدودها القانونية ➕</div>
+                    <div class="accordion-body">
+                        <strong>الوظيفة المزدوجة:</strong> (1) تمكين المواطن من معرفة كيفية إدارة الموارد، و(2) توفير أساس لممارسة الرقابة والمساءلة.<br>
+                        <strong>الحدود القانونية:</strong> عدم الكشف المطلق، بل التوازن بين الوصول للمعلومات وحماية الأمن العام والخصوصية والمعطيات الشخصية.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">📌 تعريف التنمية المستدامة (تقرير برونتلاند 1987) ➕</div>
+                    <div class="accordion-body">
+                        التنمية التي تستجيب لحاجات الحاضر دون الإخلال بقدرة الأجيال المقبلة على تلبية احتياجاتها.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">📌 مستويات قياس فعالية الاستراتيجية الوطنية لمكافحة الفساد (2023-2027) ➕</div>
+                    <div class="accordion-body">
+                        1. <strong>مستوى التصميم:</strong> وضوح الأهداف والأجل والتكاليف.<br>
+                        2. <strong>مستوى التنفيذ:</strong> مدى إنجاز التدابير وتطبيقها قطاعياً.<br>
+                        3. <strong>مستوى الأثر:</strong> الانعكاس الفعلي على درجة النزاهة وجودة الخدمة العمومية.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">📌 التمييز المنهجي الأربعة في استرداد الأموال ➕</div>
+                    <div class="accordion-body">
+                        التمييز بين: (1) الأموال قيد التحقيق، (2) الأصول المجمدة، (3) الممتلكات المصادرة بحكم قضائي، و(4) الأموال المسترجعة فعلياً للخزينة.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 6: أسئلة الامتحانات ==================== -->
+        <div id="exam-qa" class="tab-content searchable">
+            <div class="card">
+                <h2>📝 نماذج أسئلة الامتحانات الجامعية والإجابات النموذجية</h2>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">سؤال: قارن بين الطبيعة الدستورية والطبيعة الإدارية للحكم الراشد؟ ➕</div>
+                    <div class="accordion-body">
+                        <strong>الإجابة النموذجية:</strong> تتمثل الطبيعة الدستورية للحكم الراشد في ارتباطه بمبدأ خضوع السلطات الدستورية للقانون، والفصل والتوازن بين السلطات والرقابة المتبادلة وحماية الحقوق والحريات. بينما تتمثل طبيعته الإدارية في ارتباطه بمبدأ المشروعية الإدارية، وحسن سير المرافق العمومية، وترشيد استخدام الموارد العمومية، وخضوع القرارات واﻹجراءات الإدارية للرقابة الإدارية والقضائية.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">سؤال: وضح تحول دور الدولة في ظل مفهوم الحوكمة الرشيدة والمؤسسات الرقابية في الجزائر؟ ➕</div>
+                    <div class="accordion-body">
+                        <strong>الإجابة النموذجية:</strong> تتحول الدولة تدريجياً من دور "الفاعل المنفذ" الوحيد والمحتكر للقرار العام إلى دور التنظيم والضبط والتحكيم المؤسسي والتنسيق بين مختلف الفاعلين. وتتمثل أبرز المؤسسات الرقابية في الجزائر في: السلطة القضائية، مجلس المحاسبة (الرقابة المالية)، والسلطة العليا للشفافية والوقاية من الفساد ومكافحته (بموجب القانون 22-08).
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">سؤال: ما هو الإطار التشريعي الحاكم للجماعات المحلية وموقع البلدية والولاية في الجزائر؟ ➕</div>
+                    <div class="accordion-body">
+                        <strong>الإجابة النموذجية:</strong> ينظم الجماعات المحلية القانون رقم 10-11 (البلدية) والقانون رقم 12-07 (الولاية). تُعتبر البلدية الجماعة القاعدية الأقرب للمواطن لتلبية الاحتياجات اليومية كالتهيئة والنظافة والتجسيد التشاركي، بينما تتولى الولاية وظيفة التنسيق والتنمية والإشراف على الاستثمارات ذات البعد الإقليمي.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">سؤال: حلل نتائج الجزائر في مؤشر مدركات الفساد (CPI 2025) ومؤشر البنك الدولي (WGI 2024) موضحاً التمييز المنهجي؟ ➕</div>
+                    <div class="accordion-body">
+                        <strong>الإجابة النموذجية:</strong> سجلت الجزائر في CPI 2025 نتيجة 34/100 بالمرتبة 109/182 (مقابل 34/100 و107/180 سنة 2024) مما يعكس ثباتاً عددياً، بينما سجلت في WGI 2024 نحو 35.8/100. والتمييز المنهجي يقتضي عدم جمع النتيجتين لاختلاف المنهجية والمصادر، والإدراك بأن هذه المؤشرات تقيس انطباعات ومدركات ولا تعكس الإصلاحات المباشرة فور صدورها، مع ضرورة دمجها مع المعطيات الوطنية الرسمية لمجلس المحاسبة.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 7: الاختبارات التفاعلية ==================== -->
+        <div id="quizzes" class="tab-content searchable">
+            <div id="quiz-score" class="quiz-score-box" style="display:none;"></div>
+
+            <!-- سؤال 1 -->
+            <div class="quiz-card" id="q1">
+                <h3>س1: ما هو تعريف التنمية المستدامة حسب تقرير لجنة برونتالند 1987؟</h3>
+                <label class="quiz-option"><input type="radio" name="q1" value="0"> تحقيق أقصى نمو اقتصادي سريع دون مراعاة الموارد</label>
+                <label class="quiz-option"><input type="radio" name="q1" value="1"> التنمية التي تستجيب لحاجات الحاضر دون الإخلال بقدرة الأجيال المقبلة على تلبية احتياجاتها</label>
+                <label class="quiz-option"><input type="radio" name="q1" value="2"> حظر استغلال جميع الثروات الطبيعية والمناجم حظراً مطلقاً</label>
+                <div class="quiz-feedback" id="f1"></div>
+            </div>
+
+            <!-- سؤال 2 -->
+            <div class="quiz-card" id="q2">
+                <h3>س2: ما هو القانون المحدد لتنظيم السلطة العليا للشفافية والوقاية من الفساد في الجزائر؟</h3>
+                <label class="quiz-option"><input type="radio" name="q2" value="0"> القانون رقم 10-11</label>
+                <label class="quiz-option"><input type="radio" name="q2" value="1"> القانون رقم 06-12</label>
+                <label class="quiz-option"><input type="radio" name="q2" value="2"> القانون رقم 22-08 المؤرخ في 5 مايو 2022</label>
+                <div class="quiz-feedback" id="f2"></div>
+            </div>
+
+            <!-- سؤال 3 -->
+            <div class="quiz-card" id="q3">
+                <h3>س3: ما هو النص التشريعي الذي يعتبر النص المرجعي المحوري لحماية البيئة بالجزائر؟</h3>
+                <label class="quiz-option"><input type="radio" name="q3" value="0"> القانون رقم 03-10 المؤرخ في 19 يوليو 2003</label>
+                <label class="quiz-option"><input type="radio" name="q3" value="1"> القانون رقم 23-12</label>
+                <label class="quiz-option"><input type="radio" name="q3" value="2"> الأمر رقم 06-03</label>
+                <div class="quiz-feedback" id="f3"></div>
+            </div>
+
+            <!-- سؤال 4 -->
+            <div class="quiz-card" id="q4">
+                <h3>س4: ما هو القانون المحدد للقواعد العامة المتعلقة بالصفقات العمومية في الجزائر؟</h3>
+                <label class="quiz-option"><input type="radio" name="q4" value="0"> القانون رقم 23-07</label>
+                <label class="quiz-option"><input type="radio" name="q4" value="1"> القانون رقم 12-23 (أغسطس 2023)</label>
+                <label class="quiz-option"><input type="radio" name="q4" value="2"> القانون رقم 06-01</label>
+                <div class="quiz-feedback" id="f4"></div>
+            </div>
+
+            <!-- سؤال 5 -->
+            <div class="quiz-card" id="q5">
+                <h3>س5: كم نقطة سجلت الجزائر في مؤشر مدركات الفساد (CPI 2025)؟</h3>
+                <label class="quiz-option"><input type="radio" name="q5" value="0"> 50 نقطة من 100</label>
+                <label class="quiz-option"><input type="radio" name="q5" value="1"> 34 نقطة من 100 (المرتبة 109 من أصل 182 دولة)</label>
+                <label class="quiz-option"><input type="radio" name="q5" value="2"> 20 نقطة من 100</label>
+                <div class="quiz-feedback" id="f5"></div>
+            </div>
+
+            <button class="btn" onclick="checkQuiz()">إرسال وإظهار النتيجة والتفسير القانوني</button>
+        </div>
+
+        <!-- ==================== التبويب 8: الدليل التشريعي والقانوني ==================== -->
+        <div id="law-matrix" class="tab-content searchable">
+            <div class="card">
+                <h2>⚖️ الدليل الجامع للنصوص التشريعية والتنظيمية في الجزائر</h2>
+                <p>جدول شامل لجميع التشريعات الواردة في المقياس مرتبة حسب النصوص والمجالات:</p>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>النص القانوني</th>
+                                <th>التاريخ والموضوع</th>
+                                <th>المجال والمحور الرئيس</th>
+                                <th>الأحكام الأهم المتصلة بالحكم الراشد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>دستور 2020</td>
+                                <td>دستور الجمهورية الجزائرية</td>
+                                <td>البناء الدستوري والمؤسساتي</td>
+                                <td>الاعتراف بحق البيئة السليمة، تكريس السلطة العليا للشفافية (المادتان 204 و205)، والديمقراطية التشاركية.</td>
+                            </tr>
+                            <tr>
+                                <td>القانون رقم 06-01</td>
+                                <td>20 فبراير 2006 (وقاية من الفساد)</td>
+                                <td>الوقاية ومكافحة الفساد</td>
+                                <td>تجريم الرشوة، الاختلاس، استغلال النفوذ، التصريح بالممتلكات، وإرساء تدابير الوقاية بالقطاع العام.</td>
+                            </tr>
+                            <tr>
+                                <td>القانون رقم 10-11</td>
+                                <td>22 يونيو 2011 (قانون البلدية)</td>
+                                <td>الحكم المحلي والديمقراطية التشاركية</td>
+                                <td>تنظيم البلدية كجماعة قاعدية، مشاركة المواطنين في تسيير الشؤون المحلية وتحسين الخدمات.</td>
+                            </tr>
+                            <tr>
+                                <td>القانون رقم 12-07</td>
+                                <td>21 فبراير 2012 (قانون الولاية)</td>
+                                <td>التنمية المحلية والتنسيق الإقليمي</td>
+                                <td>تنظيم إدارة الولاية، التنسيق التنموي، إدارة الاستثمارات والتنمية الاقتصادية والاجتماعية.</td>
+                            </tr>
+                            <tr>
+                                <td>القانون رقم 06-12</td>
+                                <td>12 يناير 2012 (قانون الجمعيات)</td>
+                                <td>المجتمع المدني والوساطة</td>
+                                <td>تأطير العمل الجمعوي، تفعيل مساهمة الجمعيات في التنمية الثقافية والاجتماعية والبيئية والصحية.</td>
+                            </tr>
+                            <tr>
+                                <td>القانون رقم 22-08</td>
+                                <td>5 مايو 2022 (تشريع السلطة العليا)</td>
+                                <td>الوقاية والرقابة على الفساد</td>
+                                <td>تحديد صلاحيات السلطة العليا للشفافية، متابعة الاستراتيجية الوطنية، والتحري وإخطار العدالة.</td>
+                            </tr>
+                            <tr>
+                                <td>القانون رقم 23-07</td>
+                                <td>21 يونيو 2023 (المحاسبة العمومية)</td>
+                                <td>الحوكمة المالية والميزانياتية</td>
+                                <td>قواعد التسيير المالي، المحاسبة العمومية، وخضوع النفقات والمال العام لرقابة مجلس المحاسبة.</td>
+                            </tr>
+                            <tr>
+                                <td>القانون رقم 23-12</td>
+                                <td>5 أغسطس 2023 (الصفقات العمومية)</td>
+                                <td>الحوكمة الاقتصادية والمالية</td>
+                                <td>تحديد القواعد العامة للصفقات العمومية، تكافؤ الفرص، حرية المنافسة، والشفافية التعاقدية.</td>
+                            </tr>
+                            <tr>
+                                <td>القانون رقم 03-10</td>
+                                <td>19 يوليو 2003 (حماية البيئة)</td>
+                                <td>التنمية المستدامة والبيئة</td>
+                                <td>الإطار المرجعي لحماية البيئة في إطار التنمية المستدامة وتقييم الآثار البيئية للمشاريع.</td>
+                            </tr>
+                            <tr>
+                                <td>الأمر رقم 06-03</td>
+                                <td>15 يوليو 2006 (الوظيفة العمومية)</td>
+                                <td>الإدارة والنزاهة المهنية</td>
+                                <td>تحديد حقوق وواجبات الموظف العمومي، منع تضارب المصالح، وترسيخ أخلاقيات الوظيفة العامة.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <p>منصة الحكم الراشد والشفافية ومكافحة الفساد - ماستر 1 حقوق | جامعة التكوين المتواصل (مركز الجزائر شرق) © 2026/2027</p>
+        <p>جميع المادة العلمية مصممة ومستمدة حصرياً من محاضرات المقياس (إعداد الطالب: مزروع سعود)</p>
+    </footer>
+
+    <!-- ==================== البرمجة والتفاعل (JavaScript) ==================== -->
+    <script>
+        // 1. التبديل بين التبويبات
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const btns = document.querySelectorAll('.nav-btn');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            btns.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            
+            // إضافة التفعيل للزر المحدد
+            event.currentTarget.classList.add('active');
+
+            // إعادة التمرير للأعلى
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // 2. الأسئلة القابلة للطي والتوسع (Accordion)
+        function toggleAccordion(header) {
+            const body = header.nextElementSibling;
+            const isVisible = body.style.display === 'block';
+            body.style.display = isVisible ? 'none' : 'block';
+            header.innerHTML = header.innerHTML.replace(isVisible ? '➖' : '➕', isVisible ? '➕' : '➖');
+        }
+
+        // 3. محرك البحث الحي الفوري
+        function filterContent() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const activeTab = document.querySelector('.tab-content.active');
+            const cards = activeTab.querySelectorAll('.card, .accordion-item, .quiz-card, tr');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(input)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // 4. محرك التصحيح الآلي للاختبار التفاعلي
+        const quizAnswers = {
+            q1: { correct: "1", explanation: "صحيح! نص تقرير لجنة برونتالند 1987 على أن التنمية المستدامة هي التنمية التي تستجيب لحاجات الحاضر دون الإخلال بقدرة الأجيال المقبلة." },
+            q2: { correct: "2", explanation: "صحيح! القانون رقم 22-08 المؤرخ في 5 مايو 2022 هو المحدد لتنظيم السلطة العليا للشفافية وتشكيلها وصلاحياتها تنفيذ لمادتين 204 و205 من دستور 2020." },
+            q3: { correct: "0", explanation: "صحيح! القانون رقم 03-10 المؤرخ في 19 يوليو 2003 المتعلق بحماية البيئة في إطار التنمية المستدامة هو النص المرجعي المحوري." },
+            q4: { correct: "1", explanation: "صحيح! القانون رقم 23-12 المحدد للقواعد العامة المتعلقة بالصفقات العمومية المنسجم مع الحوكمة الاقتصادية والشفافية التعاقدية." },
+            q5: { correct: "1", explanation: "صحيح! سجلت الجزائر 34 نقطة من 100 واحتلت المرتبة 109 من أصل 182 دولة في CPI 2025." }
+        };
+
+        function checkQuiz() {
+            let score = 0;
+            let total = Object.keys(quizAnswers).length;
+
+            for (let q in quizAnswers) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                const feedbackDiv = document.getElementById(`f${q.substring(1)}`);
+                
+                feedbackDiv.style.display = "block";
+
+                if (selected) {
+                    if (selected.value === quizAnswers[q].correct) {
+                        score++;
+                        feedbackDiv.className = "quiz-feedback correct";
+                        feedbackDiv.innerHTML = "✅ إجابة صحيحة! " + quizAnswers[q].explanation;
+                    } else {
+                        feedbackDiv.className = "quiz-feedback incorrect";
+                        feedbackDiv.innerHTML = "❌ إجابة خاطئة. الإجابة الصحيحة والتفسير: " + quizAnswers[q].explanation;
+                    }
+                } else {
+                    feedbackDiv.className = "quiz-feedback incorrect";
+                    feedbackDiv.innerHTML = "⚠️ لم تقم بالإجابة على هذا السؤال. التفسير القانوني: " + quizAnswers[q].explanation;
+                }
+            }
+
+            const scoreBox = document.getElementById('quiz-score');
+            scoreBox.style.display = "block";
+            scoreBox.innerHTML = `🏆 نتيجتك النهائية في الاختبار: ${score} من أصل ${total} (${(score/total*100).toFixed(0)}%)`;
+            window.scrollTo({top: scoreBox.offsetTop - 100, behavior: 'smooth'});
+        }
+    </script>
+</body>
+</html>
